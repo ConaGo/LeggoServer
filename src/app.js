@@ -29,7 +29,9 @@ app.use(express.json());
 
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
-
+app.use((req, res, next) => {
+  console.log(req.body);
+  next();})
 // sanitize request data
 app.use(xss());
 app.use(mongoSanitize());
