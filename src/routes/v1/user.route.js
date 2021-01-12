@@ -3,6 +3,7 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const userValidation = require('../../validations/user.validation');
 const userController = require('../../controllers/user.controller');
+const characterController = require('../../controllers/character.controller');
 
 const router = express.Router();
 
@@ -16,7 +17,12 @@ router
   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
   .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
   .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
-
+router.route('/:userId/characters').post(characterController.createCharacter).get(characterController.getCharacters);
+router
+  .route('/:userId/characters/:charId')
+  .get(characterController.getCharacter)
+  .patch(characterController.updateCharacter)
+  .delete(characterController.deleteCharacter);
 module.exports = router;
 
 /**
